@@ -1,15 +1,33 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-task-list',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './task-list.component.html',
   styleUrl: './task-list.component.scss'
 })
 export class TaskListComponent {
-  tareas =[{ titulo: 'Aprender Angular Standalone', estado: 'pendiente' },
-    { titulo: 'Hacer la lista de tareas', estado: 'en progreso' },
-    { titulo: 'Subir a GitHub', estado: 'completada' },]
+  //create the task object
+  task: {name:string, status:string}[] = [];
+  form: FormGroup;
+  
+  constructor(private fb : FormBuilder) {
+    this.form = this.fb.group({name:['', Validators.required], 
+      status:['pendiente'],
+    });
+  }
+
+  //function to add a task
+  AddTask()
+  {
+    if(this.form.valid)
+    {
+      this.task.push(this.form.value);
+      this.form.reset({status: 'pendiente'});
+    }
+  }
+
 }
