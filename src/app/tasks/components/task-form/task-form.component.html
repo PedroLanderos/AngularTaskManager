@@ -1,0 +1,12 @@
+<form [formGroup]="form" (ngSubmit)="SubmitForm()">
+    <input type="text" placeholder="Escribe el nombre de la tarea" formControlName="name">
+
+    <select formControlName="status">
+        <option value="pendiente">Pendiente</option>
+        <option value="en progreso">En progreso</option>
+        <option value="completada">Completada </option>
+    </select>
+
+    <button type="submit" [disabled]="form.invalid"> Agregar tarea </button>
+
+</form>

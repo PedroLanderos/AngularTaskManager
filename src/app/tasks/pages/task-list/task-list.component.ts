@@ -1,33 +1,31 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { TaskFormComponent } from '../../components/task-form/task-form.component';
+import { TareasService } from '../../services/tareas.service';
 
 @Component({
   selector: 'app-task-list',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, TaskFormComponent],
   templateUrl: './task-list.component.html',
   styleUrl: './task-list.component.scss'
 })
-export class TaskListComponent {
-  //create the task object
-  task: {name:string, status:string}[] = [];
-  form: FormGroup;
+export class TaskListComponent implements OnInit{
+  constructor(private tareasService : TareasService) { 
+  }
   
-  constructor(private fb : FormBuilder) {
-    this.form = this.fb.group({name:['', Validators.required], 
-      status:['pendiente'],
-    });
+  tasks: {name:string, status:string}[] = [];
+
+  ngOnInit(): void {
+    this.tareasService.GetTareas().subscribe((data)=>{
+      this.tasks = data; 
+    })
   }
 
-  //function to add a task
-  AddTask()
+  HandleTasks(task: {name:string, status:string})
   {
-    if(this.form.valid)
-    {
-      this.task.push(this.form.value);
-      this.form.reset({status: 'pendiente'});
-    }
+    this.tareasService.AgregarTarea(task);
   }
 
 }

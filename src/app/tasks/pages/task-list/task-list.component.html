@@ -1,23 +1,12 @@
-<h2>lista para agrega tareas</h2>
-
-<form [formGroup]="form" (ngSubmit)="AddTask()">
-    <input  type="text" placeholder="Task tittle" formControlName="name"/>
-
-    <select formControlName="status">
-        <option value="pendiente">Pendiente</option>
-        <option value="en progreso">En progreso</option>
-        <option value="completada">Completada</option>
-    </select>
-
-    <button type="submit" [disabled]="form.invalid">Agregar</button>
-</form>
+<h2>Agregar tarea</h2>
+<app-task-form (onAddTask)="HandleTasks($event)"></app-task-form>
 
 <hr />
 
 <h2>Lista de tareas</h2>
 
 <ul>
-  <li *ngFor="let tarea of task">
-    <strong>{{ tarea.name }}</strong> - <em>{{ tarea.status }}</em>
+  <li *ngFor="let task of tasks">
+    <strong>{{ task.name }}</strong> - <em>{{ task.status }}</em>
   </li>
 </ul>
